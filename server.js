@@ -34,6 +34,19 @@ app.get('/movies', async (req, res) => {
   res.json(movies);
 });
 
+// Get a movie by ID
+app.get('/movies/:id', async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
+      return res.status(404).json({ error: 'Movie not found' });
+    }
+    res.status(200).json(movie);
+  } catch (err) {
+    res.status(500).json({ error: 'Could not fetch the document' });
+  }
+});
+
 app.get('/seed', async (req, res) => {
   try {
     await Movie.deleteMany({});
