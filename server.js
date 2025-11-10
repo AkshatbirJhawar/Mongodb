@@ -47,6 +47,16 @@ app.get('/movies/:id', async (req, res) => {
   }
 });
 
+app.post('/movies', async (req, res) => {
+  try {
+    const newMovie = new Movie(req.body);
+    await newMovie.save();
+    res.status(201).json({ message: "Movie added successfully", movie: newMovie });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.get('/seed', async (req, res) => {
   try {
     await Movie.deleteMany({});
