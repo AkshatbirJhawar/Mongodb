@@ -67,5 +67,28 @@ app.get('/seed', async (req, res) => {
   }
 });
 
+// DELETE all movies (no ID)
+app.delete('/movies', async (req, res) => {
+  try {
+    const result = await Movie.deleteMany({});
+    res.json({
+      message: 'All movies deleted successfully',
+      deletedCount: result.deletedCount
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete movies' });
+  }
+});
+
+// PURGE (delete ALL movies)
+app.delete('/movies/purge', async (req, res) => {
+  try {
+      const result = await Movie.deleteMany({});
+      res.json({ message: "All movies deleted", result });
+  } catch (error) {
+      res.status(500).json({ error: "Error purging movies" });
+  }
+});
+
 // Start server
 app.listen(8080, () => console.log('Server running on port 8080'));
